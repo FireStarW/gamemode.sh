@@ -10,18 +10,18 @@ fi
 if [ "$1" != "" ]; then
 	#on
 	if [ "$1" = "on" ]; then
-		cpufreq-set -g performance
+		cpupower frequency-set -g performance
 		nvidia-settings -a [gpu:0]/GPUPowerMizerMode=1 #> /dev/null
 	#	systemctl stop mysql.service 
 		systemctl stop apport.service 
 		systemctl stop whoopsie.service
-		systemctl stop speech-dispatcher.service 
+	#	systemctl stop speech-dispatcher.service 
 		echo "- - - - - Gamemode on - - - - -"
 	
 	#off
 	elif [ "$1" = "off" ]; then
-		cpufreq-set -g powersave
-		nvidia-settings -a [gpu:0]/GPUPowerMizerMode=0 
+		cpupower frequency-set -g powersave
+		nvidia-settings -a [gpu:0]/GPUPowerMizerMode=2 # 2 = auto , 0 = adaptive
 		systemctl start apport.service 
 		echo "- - - - - Gamemode off - - - - -"
 
@@ -33,4 +33,3 @@ else
 	echo "USAGE:" 
 	echo "$SCRIPTNAME {on|off}"
 fi
-
